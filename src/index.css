@@ -199,19 +199,37 @@ ul {
 }
 
 /* About */
-.about {
-  text-align: center;
+.about-inner {
+  display: flex;
+  align-items: center;
+  gap: 48px;
 }
-.about p {
+.about-photo {
+  flex-shrink: 0;
+  width: 240px;
+  height: 360px;
+  object-fit: cover;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+.about-text {
+  flex: 1;
+  min-width: 0;
+}
+.about-text h2 {
+  text-align: left;
+  margin-bottom: 20px;
+}
+.about-text p {
   max-width: 680px;
-  margin: 0 auto 16px;
+  margin: 0 0 16px;
   color: var(--text-muted);
 }
 .about-badges {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  justify-content: center;
   margin-top: 28px;
 }
 .about-badges span {
@@ -353,5 +371,19 @@ ul {
   }
   .hero h1 {
     font-size: 34px;
+  }
+  .about-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+  .about-photo {
+    width: 200px;
+    height: 300px;
+  }
+  .about-text h2 {
+    text-align: center;
+  }
+  .about-badges {
+    justify-content: center;
   }
 }
