@@ -3,7 +3,7 @@ export default function About() {
     <section id="sobre" className="section about">
       <div className="container about-inner">
         <img
-          src="/jadson-foto.png"
+          src="/jadson-foto.jpg"
           alt="Foto de Jadson Alves"
           className="about-photo"
           width="320"
