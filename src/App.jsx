@@ -1,1 +1,26 @@
-import LaserHero from ''./components/LaserHero''`r`nimport Navbar from ''./components/Navbar''`r`nimport About from ''./components/About''`r`nimport Projects from ''./components/Projects''`r`nimport Skills from ''./components/Skills''`r`nimport Contact from ''./components/Contact''`r`nimport Footer from ''./components/Footer''`r`nimport ''./App.css''`r`n`r`nfunction App() {`r`n  return (`r`n    <>`r`n      <LaserHero />`r`n      <Navbar />`r`n      <main>`r`n        <About />`r`n        <Projects />`r`n        <Skills />`r`n        <Contact />`r`n      </main>`r`n      <Footer />`r`n    </>`r`n  );`r`n}`r`n`r`nexport default App`r`n
+import LaserHero from './components/LaserHero'
+import Navbar from './components/Navbar'
+import About from './components/About'
+import Projects from './components/Projects'
+import Skills from './components/Skills'
+import Contact from './components/Contact'
+import Footer from './components/Footer'
+import './App.css'
+
+function App() {
+  return (
+    <>
+      <LaserHero />
+      <Navbar />
+      <main>
+        <About />
+        <Projects />
+        <Skills />
+        <Contact />
+      </main>
+      <Footer />
+    </>
+  );
+}
+
+export default App
