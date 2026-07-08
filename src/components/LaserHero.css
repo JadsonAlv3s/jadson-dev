@@ -1,0 +1,321 @@
+/* ============================================================
+   LASER HERO - Efeito raio laser + janelas de código passando
+   Baseado no hero da Connect System
+   ============================================================ */
+
+.laser-hero {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  background: var(--bg, #0b0d12);
+}
+
+/* ---- Estrelas (Canvas) ---- */
+.laser-stars {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ---- Grid de fundo ---- */
+.laser-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.03;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+/* ---- Raio Laser ---- */
+.laser-beam-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.laser-beam {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.laser-beam-vertical {
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent, #5eead4, #a78bfa, transparent);
+  box-shadow: 0 0 60px rgba(94, 234, 212, 0.3), 0 0 120px rgba(167, 139, 250, 0.15);
+  animation: laserPulseV 3s ease-in-out infinite;
+}
+
+.laser-beam-horizontal {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(to right, transparent, #5eead4, #a78bfa, transparent);
+  box-shadow: 0 0 60px rgba(94, 234, 212, 0.3), 0 0 120px rgba(167, 139, 250, 0.15);
+  animation: laserPulseH 4s ease-in-out infinite;
+}
+
+.laser-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(94, 234, 212, 0.12) 0%, rgba(167, 139, 250, 0.06) 40%, transparent 70%);
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+@keyframes laserPulseV {
+  0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scaleX(1); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scaleX(1.5); }
+}
+
+@keyframes laserPulseH {
+  0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) scaleY(1); }
+  50% { opacity: 0.8; transform: translate(-50%, -50%) scaleY(2); }
+}
+
+@keyframes glowPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+}
+
+/* ---- Cards de código em scroll horizontal ---- */
+.scrolling-cards {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 260px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.scrolling-cards-track {
+  display: flex;
+  gap: 16px;
+  position: absolute;
+  animation: scrollCards 50s linear infinite;
+}
+
+@keyframes scrollCards {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); }
+}
+
+.code-card-mini {
+  flex-shrink: 0;
+  width: 280px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(13, 17, 23, 0.6);
+  backdrop-filter: blur(12px);
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(94, 234, 212, 0.04);
+}
+
+.code-card-mini-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.code-card-dots {
+  display: flex;
+  gap: 5px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dot-red { background: #ef4444; }
+.dot-yellow { background: #eab308; }
+.dot-green { background: #22c55e; }
+
+.code-card-mini-title {
+  font-size: 10px;
+  color: rgba(148, 163, 184, 0.6);
+  font-family: 'Courier New', monospace;
+  margin-left: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.code-card-mini-body {
+  padding: 10px 12px;
+  font-family: 'Courier New', monospace;
+  font-size: 9px;
+  line-height: 1.7;
+}
+
+.code-line {
+  display: flex;
+  white-space: nowrap;
+}
+
+.line-number {
+  color: rgba(148, 163, 184, 0.25);
+  width: 20px;
+  text-align: right;
+  margin-right: 8px;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.line-code {
+  color: rgba(148, 163, 184, 0.7);
+}
+
+/* ---- Conteúdo central ---- */
+.laser-hero-content {
+  position: relative;
+  z-index: 10;
+  max-width: 720px;
+  padding: 0 24px;
+  animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.laser-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(94, 234, 212, 0.2);
+  background: rgba(94, 234, 212, 0.05);
+  color: #5eead4;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  animation: badgeGlow 3s ease-in-out infinite;
+}
+
+@keyframes badgeGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(94, 234, 212, 0.1); }
+  50% { box-shadow: 0 0 40px rgba(94, 234, 212, 0.2); }
+}
+
+.badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #5eead4;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.laser-hero-title {
+  font-size: 48px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  line-height: 1.15;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.4);
+}
+
+@media (min-width: 768px) {
+  .laser-hero-title {
+    font-size: 64px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .laser-hero-title {
+    font-size: 80px;
+  }
+}
+
+.gradient-white-cyan {
+  background: linear-gradient(to right, #fff, #5eead4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-cyan-purple {
+  background: linear-gradient(to right, #5eead4, #a78bfa, #f472b6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.laser-hero-subtitle {
+  color: var(--text-muted, #94a3b8);
+  font-size: 18px;
+  margin-bottom: 32px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.7;
+}
+
+.laser-hero-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ---- Gradiente inferior ---- */
+.laser-hero-gradient-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: linear-gradient(to top, var(--bg, #0b0d12), transparent);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* ---- Responsivo ---- */
+@media (max-width: 720px) {
+  .laser-hero-title {
+    font-size: 34px;
+  }
+  .scrolling-cards {
+    height: 200px;
+  }
+  .code-card-mini {
+    width: 220px;
+  }
+  .code-card-mini-body {
+    font-size: 8px;
+  }
+}
