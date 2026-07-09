@@ -1,5 +1,6 @@
-import LaserHero from './components/LaserHero'
+import TopBar from './components/TopBar'
 import Navbar from './components/Navbar'
+import LaserHero from './components/LaserHero'
 import About from './components/About'
 import Projects from './components/Projects'
 import Skills from './components/Skills'
@@ -10,9 +11,10 @@ import './App.css'
 function App() {
   return (
     <>
-      <LaserHero />
+      <TopBar />
       <Navbar />
       <main>
+        <LaserHero />
         <About />
         <Projects />
         <Skills />

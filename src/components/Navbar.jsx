@@ -9,8 +9,8 @@ export default function Navbar() {
           <li><a href="#sobre">Sobre</a></li>
           <li><a href="#projetos">Projetos</a></li>
           <li><a href="#skills">Skills</a></li>
-          <li><a href="#contato" className="navbar-cta">Contato</a></li>
         </ul>
+        <a href="#contato" className="navbar-cta">Falar comigo</a>
       </nav>
     </header>
   )
