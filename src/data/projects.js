@@ -1,5 +1,15 @@
 export const projects = [
   {
+    id: 'eitapdv',
+    name: 'EitaPDV',
+    tag: 'SaaS · PDV & Gestão',
+    description:
+      'SaaS multi-tenant de PDV e gestão para o comércio (lanchonete/açaiteria, varejo e mercadinho): cardápio digital, PDV, KDS de cozinha em tempo real, controle de estoque, financeiro/caixa, crediário, dashboard do lojista, automação de pedidos via WhatsApp e cobrança recorrente (PIX/cartão) com Mercado Pago. Em produção numa VPS com Docker, isolamento entre lojas reforçado por RLS no PostgreSQL.',
+    stack: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Prisma', 'Redis', 'Socket.io', 'Docker', 'Mercado Pago'],
+    link: 'https://eitapdv.com',
+    linkLabel: 'Ver site ao vivo',
+  },
+  {
     id: 'legenda-viva',
     name: 'LegendaViva',
     tag: 'Web App · Acessibilidade',
