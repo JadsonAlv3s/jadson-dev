@@ -66,31 +66,77 @@
   pointer-events: none;
 }
 
-/* ---- Raio vertical único e discreto ---- */
-.laser-beam-vertical {
+/* ---- Raio laser em camadas (fiel à referência) ---- */
+.laser-beam {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+  z-index: 1;
+  pointer-events: none;
+  /* Beam mais forte na metade inferior (cards) e suave sob o título — como a referência */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.55) 26%, #000 46%, #000 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.55) 26%, #000 46%, #000 100%);
+}
+.beam {
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 1px;
   height: 100%;
-  z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(167, 139, 250, 0.35) 22%,
-    rgba(255, 255, 255, 0.55) 45%,
-    rgba(167, 139, 250, 0.35) 70%,
-    transparent 100%
-  );
-  box-shadow: 0 0 24px rgba(139, 92, 246, 0.4);
-  animation: beamPulse 4s ease-in-out infinite;
+}
+/* Núcleo branco fino e sólido */
+.beam-core {
+  width: 3px;
+  background: #ffffff;
+  box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.9);
+  animation: beamGlow 3.5s ease-in-out infinite;
+}
+/* Halo violeta próximo */
+.beam-inner {
+  width: 24px;
+  background: #a78bfa;
+  filter: blur(8px);
+  mix-blend-mode: screen;
+}
+/* Brilho roxo amplo */
+.beam-outer {
+  width: 90px;
+  background: rgba(168, 85, 247, 0.5);
+  filter: blur(35px);
+  mix-blend-mode: screen;
+  animation: beamBreathe 5s ease-in-out infinite;
+}
+/* Pulso de luz descendo — dá o aspecto "ativo" */
+.beam-travel {
+  width: 5px;
+  height: 140px;
+  border-radius: 999px;
+  background: linear-gradient(to bottom, transparent, #ffffff 45%, #c4b5fd 60%, transparent);
+  box-shadow: 0 0 24px 6px rgba(196, 181, 253, 0.85);
+  mix-blend-mode: screen;
+  animation: beamTravel 3.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
 }
 
-@keyframes beamPulse {
-  0%, 100% { opacity: 0.55; }
+@media (min-width: 768px) {
+  .beam-core { width: 4px; }
+}
+
+@keyframes beamGlow {
+  0%, 100% { box-shadow: 0 0 18px 4px rgba(255, 255, 255, 0.8); }
+  50% { box-shadow: 0 0 28px 7px rgba(255, 255, 255, 1); }
+}
+@keyframes beamBreathe {
+  0%, 100% { opacity: 0.7; }
   50% { opacity: 1; }
+}
+@keyframes beamTravel {
+  0% { transform: translate(-50%, -160px); opacity: 0; }
+  12% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { transform: translate(-50%, 100vh); opacity: 0; }
 }
 
 /* ---- Conteúdo central ---- */
@@ -337,8 +383,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .laser-beam-vertical,
+  .beam-core,
+  .beam-outer,
   .badge-dot,
   .laser-hero-content { animation: none; }
+  .beam-travel { display: none; }
   .scrolling-cards-track { animation-duration: 120s; }
 }

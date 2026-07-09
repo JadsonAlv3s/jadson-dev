@@ -240,7 +240,12 @@ export default function LaserHero() {
     <section id="hero" className="laser-hero">
       <Stars />
       <div className="laser-hero-glow" aria-hidden="true" />
-      <div className="laser-beam-vertical" aria-hidden="true" />
+      <div className="laser-beam" aria-hidden="true">
+        <div className="beam beam-outer" />
+        <div className="beam beam-inner" />
+        <div className="beam beam-core" />
+        <div className="beam beam-travel" />
+      </div>
 
       <div className="laser-hero-content">
         <div className="laser-hero-badge">
