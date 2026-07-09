@@ -1,21 +1,19 @@
 /* ============================================================
-   LASER HERO — inspirado no layout ConnectSystem
-   Raio vertical sutil + esteira de cards (código + serviços)
-   Paleta: violeta/branco sobre quase-preto
+   LASER HERO — réplica fiel da referência ConnectSystem
+   - Duas trilhas de cards sincronizadas (código | serviço),
+     a de serviço clipada na posição do laser (efeito "scan")
+   - Laser em 4 camadas + flicker + partículas, aceso apenas
+     enquanto um card passa por baixo (classe .beam-on via JS)
+   - Esteira lenta: 140s (≈22px/s), igual à referência
    ============================================================ */
 
 .laser-hero {
-  --v1: #8b5cf6;
-  --v2: #a78bfa;
-  --v-soft: rgba(139, 92, 246, 0.5);
-
   position: relative;
   z-index: 1;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
   padding-top: 11vh;
   text-align: center;
   overflow: hidden;
@@ -35,18 +33,18 @@
 /* ---- Brilho ambiente violeta atrás do título ---- */
 .laser-hero-glow {
   position: absolute;
-  top: 8%;
+  top: 4%;
   left: 50%;
   transform: translateX(-50%);
   width: 1100px;
   max-width: 130vw;
-  height: 620px;
+  height: 560px;
   z-index: 0;
   pointer-events: none;
   background: radial-gradient(
     ellipse at center,
-    rgba(124, 58, 237, 0.22) 0%,
-    rgba(124, 58, 237, 0.08) 38%,
+    rgba(124, 58, 237, 0.2) 0%,
+    rgba(124, 58, 237, 0.07) 38%,
     transparent 68%
   );
   filter: blur(20px);
@@ -66,83 +64,13 @@
   pointer-events: none;
 }
 
-/* ---- Raio laser (réplica fiel da referência) ----
-   4 camadas: core branco 3/4px · violeta 16/24px blur(8px) ·
-   roxo 80/100px blur(35px) · fúcsia 120/180px blur(50px),
-   todas mix-blend-screen, NA FRENTE dos cards (z-60 na ref).
-   Só existe na faixa dos cards (abaixo do subtítulo) e tem
-   ciclo de ignição: ON ~14,5s → OFF ~2,5s (transição 300ms,
-   cresce do centro com scaleY). */
-.laser-beam {
-  position: absolute;
-  top: 57%;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 2px;
-  z-index: 4;
-  pointer-events: none;
-}
-.beam-ignite {
-  position: absolute;
-  inset: 0;
-  transform-origin: center;
-  animation: beamIgnite 17s linear infinite;
-}
-.beam {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  height: 100%;
-  mix-blend-mode: screen;
-}
-/* Núcleo branco sólido */
-.beam-core {
-  width: 3px;
-  background: #ffffff;
-  box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.9);
-  mix-blend-mode: normal;
-}
-/* Halo violeta próximo */
-.beam-inner {
-  width: 16px;
-  background: #a78bfa;
-  filter: blur(8px);
-}
-/* Brilho roxo médio */
-.beam-mid {
-  width: 80px;
-  background: rgba(168, 85, 247, 0.6);
-  filter: blur(35px);
-}
-/* Lavagem fúcsia larga */
-.beam-outer {
-  width: 120px;
-  background: rgba(192, 38, 211, 0.3);
-  filter: blur(50px);
-}
-
-@media (min-width: 768px) {
-  .beam-core { width: 4px; }
-  .beam-inner { width: 24px; }
-  .beam-mid { width: 100px; }
-  .beam-outer { width: 180px; }
-}
-
-/* Ciclo de 17s: ligado 14,5s → apaga (300ms) → off 2,2s → religa (300ms) */
-@keyframes beamIgnite {
-  0%, 85.3% { opacity: 1; transform: scaleY(1); }
-  87%, 98.2% { opacity: 0; transform: scaleY(0.5); }
-  100% { opacity: 1; transform: scaleY(1); }
-}
-
 /* ---- Conteúdo central ---- */
 .laser-hero-content {
   position: relative;
   z-index: 10;
   max-width: 860px;
   padding: 0 24px;
+  margin-bottom: 40px;
   animation: fadeInUp 0.8s ease-out 0.15s both;
 }
 
@@ -181,7 +109,7 @@
   50% { opacity: 0.4; }
 }
 
-/* ---- Título branco em dois pesos (como a referência) ---- */
+/* ---- Título branco em dois pesos ---- */
 .laser-hero-title {
   margin: 0 0 24px;
   line-height: 1.04;
@@ -220,29 +148,37 @@
   margin: 0 auto;
 }
 
-/* ---- Esteira de cards no terço inferior ---- */
-.scrolling-cards {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 65%;
-  bottom: 0;
+/* ============================================================
+   FAIXA DOS CARDS
+   ============================================================ */
+.cards-band {
+  position: relative;
+  margin-top: auto;
+  width: 100%;
+  height: 560px;
   overflow: hidden;
-  pointer-events: none;
-  z-index: 2;
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
-  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  display: flex;
+  align-items: center;
 }
 
-.scrolling-cards-track {
-  display: flex;
-  align-items: flex-start;
-  gap: 22px;
-  padding: 0 22px;
+.band-layer {
   position: absolute;
-  top: 0;
-  left: 0;
-  animation: scrollCards 55s linear infinite;
+  inset: 0;
+  display: flex;
+  align-items: center;
+}
+.band-layer-code { z-index: 1; }
+/* Trilha desenhada só é visível À DIREITA do laser (efeito scan) */
+.band-layer-service {
+  z-index: 2;
+  pointer-events: none;
+  clip-path: inset(0 0 0 50%);
+}
+
+.cards-track {
+  display: flex;
+  width: max-content;
+  animation: scrollCards 140s linear infinite;
 }
 
 @keyframes scrollCards {
@@ -250,16 +186,15 @@
   100% { transform: translateX(-50%); }
 }
 
-/* ---- Card base ---- */
+/* ---- Card base (mesmo tamanho nas duas trilhas!) ---- */
 .hero-card {
   flex-shrink: 0;
   width: 320px;
-  height: 380px;
+  height: 340px;
+  margin-right: 64px;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(18, 16, 27, 0.72);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(18, 16, 27, 0.85);
   overflow: hidden;
   box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.6);
 }
@@ -316,7 +251,7 @@
 .tok-comment { color: #6b7280; font-style: italic; }
 .tok-plain { color: #9aa4b2; }
 
-/* ---- Card de serviço ---- */
+/* ---- Card de serviço (versão "desenhada", à direita do laser) ---- */
 .hero-card-service {
   padding: 28px 26px;
   text-align: left;
@@ -324,13 +259,14 @@
   flex-direction: column;
   gap: 14px;
   position: relative;
+  background: rgba(20, 17, 30, 0.92);
 }
 .hero-card-service::before {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: 16px;
-  background: radial-gradient(120% 80% at 50% 0%, rgba(139, 92, 246, 0.14), transparent 60%);
+  background: radial-gradient(120% 80% at 50% 0%, rgba(139, 92, 246, 0.16), transparent 60%);
   pointer-events: none;
 }
 .hero-card-icon {
@@ -358,16 +294,144 @@
   margin: 0;
 }
 
-/* ---- Fade inferior ---- */
-.laser-hero-gradient-bottom {
+/* ============================================================
+   LASER (na frente dos cards; aceso só com card embaixo)
+   ============================================================ */
+.laser-beam {
   position: absolute;
+  top: 0;
   bottom: 0;
-  left: 0;
-  right: 0;
-  height: 120px;
-  background: linear-gradient(to top, #07070c 20%, transparent);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  z-index: 4;
   pointer-events: none;
-  z-index: 3;
+}
+
+/* Linha ociosa: sempre visível, discreta */
+.beam-idle {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 100%;
+  background: rgba(167, 139, 250, 0.4);
+}
+
+/* Grupo de ignição: aparece via .beam-on (JS), crescendo do centro */
+.beam-ignite {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scaleY(0.5);
+  transform-origin: center;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.laser-beam.beam-on .beam-ignite {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+/* Tremulação rápida do feixe ativo (como a referência: 0.06s alternate) */
+.beam-flicker {
+  position: absolute;
+  inset: 0;
+  animation: laserFlicker 0.06s infinite alternate;
+}
+
+@keyframes laserFlicker {
+  0%, 100% { opacity: 1; transform: scaleX(1); }
+  25% { opacity: 0.85; transform: scaleX(1.4); }
+  50% { opacity: 0.95; transform: scaleX(0.8); }
+  75% { opacity: 0.9; transform: scaleX(1.3); }
+}
+
+.beam {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100%;
+  mix-blend-mode: screen;
+}
+/* Núcleo branco sólido */
+.beam-core {
+  width: 3px;
+  background: #ffffff;
+  box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.9);
+  mix-blend-mode: normal;
+}
+/* Halo violeta próximo */
+.beam-inner {
+  width: 16px;
+  background: #a78bfa;
+  filter: blur(8px);
+}
+/* Brilho roxo médio */
+.beam-mid {
+  width: 80px;
+  background: rgba(168, 85, 247, 0.6);
+  filter: blur(35px);
+}
+/* Lavagem fúcsia larga */
+.beam-outer {
+  width: 120px;
+  background: rgba(192, 38, 211, 0.3);
+  filter: blur(50px);
+}
+
+@media (min-width: 768px) {
+  .beam-core { width: 4px; }
+  .beam-inner { width: 24px; }
+  .beam-mid { width: 100px; }
+  .beam-outer { width: 180px; }
+}
+
+/* ---- Partículas saltando do feixe ativo ---- */
+.beam-particle {
+  position: absolute;
+  left: 50%;
+  border-radius: 50%;
+  mix-blend-mode: screen;
+  box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.4);
+  animation-name: particleBurst;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes particleBurst {
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
+  80% { opacity: 0.9; }
+  100% { transform: translate(var(--x), var(--y)) scale(0) rotate(180deg); opacity: 0; }
+}
+
+/* ---- Fades das bordas da faixa (por cima do laser, como a ref) ---- */
+.band-fade {
+  position: absolute;
+  z-index: 5;
+  pointer-events: none;
+}
+.band-fade-l {
+  top: 0; bottom: 0; left: 0;
+  width: 256px;
+  background: linear-gradient(to right, #07070c, transparent);
+}
+.band-fade-r {
+  top: 0; bottom: 0; right: 0;
+  width: 256px;
+  background: linear-gradient(to left, #07070c, transparent);
+}
+.band-fade-t {
+  left: 0; right: 0; top: 0;
+  height: 96px;
+  background: linear-gradient(to bottom, #07070c, transparent);
+}
+.band-fade-b {
+  left: 0; right: 0; bottom: 0;
+  height: 96px;
+  background: linear-gradient(to top, #07070c, transparent);
 }
 
 /* ---- Responsivo ---- */
@@ -376,15 +440,20 @@
   .title-strong { font-size: 40px; }
   .title-light { font-size: 34px; }
   .laser-hero-subtitle { font-size: 16px; }
-  .scrolling-cards { top: 62%; }
-  .hero-card { width: 260px; height: 320px; }
+  .cards-band { height: 440px; }
+  .hero-card { width: 280px; height: 320px; margin-right: 48px; }
+  .hero-card-body { font-size: 10px; }
   /* Como na referência: no mobile o laser fica a 25% da esquerda */
-  .laser-beam { left: 25%; top: 60%; }
+  .laser-beam { left: 25%; }
+  .band-layer-service { clip-path: inset(0 0 0 25%); }
+  .band-fade-l, .band-fade-r { width: 64px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .beam-ignite,
+  .cards-track { animation-play-state: paused; }
+  .beam-flicker,
   .badge-dot,
   .laser-hero-content { animation: none; }
-  .scrolling-cards-track { animation-duration: 120s; }
+  .beam-particle { display: none; }
+  .beam-ignite { transition: none; }
 }

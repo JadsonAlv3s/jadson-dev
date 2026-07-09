@@ -1,102 +1,183 @@
 import { useEffect, useRef } from "react";
 import "./LaserHero.css";
 
-/* ---- Conteúdo dos cards que passam no rodapé do hero ---- */
-const codeCards = [
+/* ============================================================
+   Cada SLOT tem duas versões do mesmo card, com o mesmo tamanho:
+   - code: mostrada À ESQUERDA do laser (trilha de baixo)
+   - service: mostrada À DIREITA do laser (trilha clipada)
+   O laser é a linha de "scan" entre as duas.
+   ============================================================ */
+const SLOTS = [
   {
-    type: "code",
-    title: "api/routes.ts",
-    lines: [
-      'import { Router } from "express";',
-      "const router = Router();",
-      "",
-      "router.get('/users', async (req, res) => {",
-      "  const users = await db.users.findMany();",
-      "  return res.json(users);",
-      "});",
-    ],
+    code: {
+      title: "api/routes.ts",
+      lines: [
+        'import { Router } from "express";',
+        "const router = Router();",
+        "",
+        "router.get('/users', async (req, res) => {",
+        "  const users = await db.users.findMany();",
+        "  return res.json(users);",
+        "});",
+        "",
+        "export default router;",
+      ],
+    },
+    service: {
+      icon: "web",
+      title: "Desenvolvimento Web",
+      desc: "Aplicações React e FastAPI, do design à produção, com foco em performance e acessibilidade.",
+    },
   },
   {
-    type: "code",
-    title: "app/layout.tsx",
-    lines: [
-      "export default function RootLayout({",
-      "  children,",
-      "}: {",
-      "  children: React.ReactNode;",
-      "}) {",
-      "  return (",
-      '    <html lang="pt-BR">',
-      "      <body>{children}</body>",
-      "    </html>",
-      "  );",
-      "}",
-    ],
+    code: {
+      title: "CheckMate.java",
+      lines: [
+        "public class MatriculaService {",
+        "",
+        "  public Recibo matricular(Aluno aluno,",
+        "      Plano plano) {",
+        "    validar(aluno);",
+        "    var recibo = caixa.cobrar(plano);",
+        "    repositorio.salvar(aluno);",
+        "    return recibo;",
+        "  }",
+        "}",
+      ],
+    },
+    service: {
+      icon: "desktop",
+      title: "Aplicações Desktop",
+      desc: "Sistemas de gestão em Java que rodam offline e centralizam rotinas operacionais.",
+    },
   },
   {
-    type: "code",
-    title: "lib/supabase.ts",
-    lines: [
-      "import { createClient } from '@supabase/supabase-js';",
-      "",
-      "const url = import.meta.env.VITE_SUPABASE_URL;",
-      "const key = import.meta.env.VITE_SUPABASE_KEY;",
-      "",
-      "export const db = createClient(url, key);",
-    ],
+    code: {
+      title: "bot/atendimento.ts",
+      lines: [
+        "const resposta = await claude.messages",
+        "  .create({",
+        "    model: 'claude-haiku-4-5',",
+        "    system: promptDaLoja(tenant),",
+        "    messages: historico,",
+        "  });",
+        "",
+        "if (temPedido(resposta)) {",
+        "  await criarPedido(resposta.pedido);",
+        "}",
+      ],
+    },
+    service: {
+      icon: "ai",
+      title: "Automação & IA",
+      desc: "Integrações com IA e automações que cortam trabalho manual e aceleram entregas.",
+    },
   },
   {
-    type: "code",
-    title: "docker-compose.yml",
-    lines: [
-      "services:",
-      "  api:",
-      "    build: ./backend",
-      "    restart: unless-stopped",
-      "    depends_on:",
-      "      - postgres",
-      "      - redis",
-    ],
-  },
-];
-
-const serviceCards = [
-  {
-    type: "service",
-    icon: "web",
-    title: "Desenvolvimento Web",
-    desc: "Aplicações React e FastAPI, do design à produção, com foco em performance e acessibilidade.",
-  },
-  {
-    type: "service",
-    icon: "desktop",
-    title: "Aplicações Desktop",
-    desc: "Sistemas de gestão em Java que rodam offline e centralizam rotinas operacionais.",
+    code: {
+      title: "docker-compose.yml",
+      lines: [
+        "services:",
+        "  api:",
+        "    build: ./backend",
+        "    restart: unless-stopped",
+        "    depends_on:",
+        "      - postgres",
+        "      - redis",
+        "  proxy:",
+        "    image: caddy:2-alpine",
+      ],
+    },
+    service: {
+      icon: "cloud",
+      title: "Cloud & Deploy",
+      desc: "Deploy em VPS com Docker, CI/CD e monitoramento — do commit à produção.",
+    },
   },
   {
-    type: "service",
-    icon: "ai",
-    title: "Automação & IA",
-    desc: "Integrações com IA e automações que cortam trabalho manual e aceleram entregas.",
+    code: {
+      title: "prisma/schema.prisma",
+      lines: [
+        "model Order {",
+        "  id        String   @id",
+        "  tenantId  String",
+        "  status    OrderStatus",
+        "  items     OrderItem[]",
+        "  total     Decimal",
+        "",
+        "  @@index([tenantId])",
+        "}",
+      ],
+    },
+    service: {
+      icon: "pos",
+      title: "EitaPDV · SaaS",
+      desc: "PDV, estoque e financeiro multi-loja em produção — cardápio, KDS e cobrança recorrente.",
+    },
   },
   {
-    type: "service",
-    icon: "cloud",
-    title: "Cloud & Deploy",
-    desc: "Deploy em VPS com Docker, CI/CD e monitoramento — do commit à produção.",
+    code: {
+      title: "ws/transcricao.ts",
+      lines: [
+        "socket.on('audio', async (chunk) => {",
+        "  const texto = await transcrever(chunk);",
+        "  const legenda = await traduzir(",
+        "    texto, idiomaDestino,",
+        "  );",
+        "  sala.emit('legenda', {",
+        "    texto: legenda,",
+        "    latencia: Date.now() - t0,",
+        "  });",
+        "});",
+      ],
+    },
+    service: {
+      icon: "captions",
+      title: "LegendaViva",
+      desc: "Legendas ao vivo com tradução simultânea para pessoas surdas acompanharem eventos.",
+    },
   },
-];
-
-// Intercala código e serviço para dar ritmo à esteira.
-const CARDS = [
-  codeCards[0],
-  serviceCards[0],
-  codeCards[1],
-  serviceCards[1],
-  codeCards[2],
-  serviceCards[2],
-  codeCards[3],
-  serviceCards[3],
+  {
+    code: {
+      title: "styles/global.css",
+      lines: [
+        ":root {",
+        "  --brand: #8b5cf6;",
+        "  --surface: #12101b;",
+        "}",
+        "",
+        ".hero {",
+        "  display: grid;",
+        "  place-items: center;",
+        "  min-height: 100dvh;",
+        "}",
+      ],
+    },
+    service: {
+      icon: "layout",
+      title: "Landing Pages",
+      desc: "Páginas rápidas e bem-acabadas que seguem a identidade visual da marca e convertem.",
+    },
+  },
+  {
+    code: {
+      title: "app/rotas.ts",
+      lines: [
+        "const posicao = watchPosition((gps) => {",
+        "  const parada = maisProxima(gps);",
+        "  mapa.atualizar({",
+        "    onibus: frota.aoVivo(),",
+        "    chegadaEm: eta(parada),",
+        "  });",
+        "});",
+      ],
+    },
+    service: {
+      icon: "map",
+      title: "Rota Clara",
+      desc: "Rastreamento de ônibus em tempo real e rotas turísticas na região de São José de Mipibu.",
+    },
+  },
 ];
 
 const ICONS = {
@@ -123,13 +204,38 @@ const ICONS = {
       <path d="M7 18a4 4 0 0 1 0-8 5 5 0 0 1 9.6-1.3A3.5 3.5 0 0 1 18 18H7Z" />
     </svg>
   ),
+  pos: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="4" y="3" width="16" height="18" rx="2" />
+      <path d="M8 7h8M8 11h8M8 15h4" />
+    </svg>
+  ),
+  captions: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <path d="M7 12h4M7 15.5h7M13.5 12H17" />
+    </svg>
+  ),
+  layout: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="4" width="18" height="16" rx="2" />
+      <path d="M3 9h18M9 9v11" />
+    </svg>
+  ),
+  map: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z" />
+      <path d="M9 4v14M15 6v14" />
+    </svg>
+  ),
 };
 
-// Realce leve de sintaxe (strings, comentários, palavras-chave).
+/* Realce leve de sintaxe (strings, comentários, palavras-chave). */
 const KEYWORDS = new Set([
   "import", "from", "export", "default", "const", "let", "var", "return",
   "async", "await", "function", "new", "if", "else", "for", "of", "class",
-  "extends", "interface", "type", "services", "build", "restart", "depends_on",
+  "extends", "interface", "type", "public", "model", "services", "build",
+  "restart", "depends_on", "image",
 ]);
 
 function tokenize(line) {
@@ -177,6 +283,45 @@ function ServiceCard({ icon, title, desc }) {
       <h3 className="hero-card-service-title">{title}</h3>
       <p className="hero-card-service-desc">{desc}</p>
     </div>
+  );
+}
+
+/* Partículas que saltam do laser enquanto ele está ativo (particleBurst). */
+const PARTICLES = [
+  { top: "12%", x: -62, y: -34, s: 3, d: 1.1, delay: 0.0, c: "#ffffff" },
+  { top: "20%", x: 48, y: -52, s: 2, d: 1.4, delay: 0.5, c: "#c4b5fd" },
+  { top: "31%", x: -38, y: 40, s: 2.5, d: 0.9, delay: 0.9, c: "#e879f9" },
+  { top: "38%", x: 70, y: 18, s: 2, d: 1.6, delay: 0.2, c: "#ffffff" },
+  { top: "47%", x: -80, y: -12, s: 3, d: 1.3, delay: 1.1, c: "#c4b5fd" },
+  { top: "53%", x: 56, y: 44, s: 2, d: 1.0, delay: 0.7, c: "#ffffff" },
+  { top: "61%", x: -46, y: -58, s: 2.5, d: 1.5, delay: 0.3, c: "#e879f9" },
+  { top: "69%", x: 84, y: -26, s: 2, d: 1.2, delay: 1.4, c: "#c4b5fd" },
+  { top: "77%", x: -66, y: 30, s: 3, d: 1.1, delay: 0.6, c: "#ffffff" },
+  { top: "85%", x: 40, y: 56, s: 2, d: 1.4, delay: 1.0, c: "#c4b5fd" },
+  { top: "26%", x: 30, y: 62, s: 2, d: 1.7, delay: 1.6, c: "#ffffff" },
+  { top: "90%", x: -52, y: -44, s: 2.5, d: 1.2, delay: 0.4, c: "#e879f9" },
+];
+
+function Particles() {
+  return (
+    <>
+      {PARTICLES.map((p, i) => (
+        <span
+          key={i}
+          className="beam-particle"
+          style={{
+            top: p.top,
+            width: p.s,
+            height: p.s,
+            background: p.c,
+            "--x": `${p.x}px`,
+            "--y": `${p.y}px`,
+            animationDuration: `${p.d}s`,
+            animationDelay: `${p.delay}s`,
+          }}
+        />
+      ))}
+    </>
   );
 }
 
@@ -236,19 +381,42 @@ function Stars() {
 }
 
 export default function LaserHero() {
+  const loop = [...SLOTS, ...SLOTS];
+  const bandRef = useRef(null);
+  const beamRef = useRef(null);
+
+  /* O laser só acende enquanto um card está passando por baixo dele
+     (como na referência). Checa a posição real dos cards da trilha. */
+  useEffect(() => {
+    const band = bandRef.current;
+    const beam = beamRef.current;
+    if (!band || !beam) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      beam.classList.add("beam-on");
+      return;
+    }
+
+    const cards = band.querySelectorAll(".band-layer-code .hero-card");
+    const id = setInterval(() => {
+      const bandRect = band.getBoundingClientRect();
+      const frac = window.innerWidth <= 720 ? 0.25 : 0.5;
+      const beamX = bandRect.left + bandRect.width * frac;
+      let on = false;
+      for (const c of cards) {
+        const r = c.getBoundingClientRect();
+        if (r.left <= beamX && r.right >= beamX) { on = true; break; }
+      }
+      beam.classList.toggle("beam-on", on);
+    }, 120);
+
+    return () => clearInterval(id);
+  }, []);
+
   return (
     <section id="hero" className="laser-hero">
       <Stars />
       <div className="laser-hero-glow" aria-hidden="true" />
-      {/* Raio laser — 4 camadas (core branco → fúcsia larga), com ciclo de ignição */}
-      <div className="laser-beam" aria-hidden="true">
-        <div className="beam-ignite">
-          <div className="beam beam-outer" />
-          <div className="beam beam-mid" />
-          <div className="beam beam-inner" />
-          <div className="beam beam-core" />
-        </div>
-      </div>
 
       <div className="laser-hero-content">
         <div className="laser-hero-badge">
@@ -267,19 +435,43 @@ export default function LaserHero() {
         </p>
       </div>
 
-      <div className="scrolling-cards" aria-hidden="true">
-        <div className="scrolling-cards-track">
-          {[...CARDS, ...CARDS].map((card, index) =>
-            card.type === "code" ? (
-              <CodeCard key={index} title={card.title} lines={card.lines} />
-            ) : (
-              <ServiceCard key={index} icon={card.icon} title={card.title} desc={card.desc} />
-            )
-          )}
+      {/* Faixa dos cards: duas trilhas sincronizadas (código | serviço),
+          a de serviço clipada na posição do laser — o laser "escaneia"
+          o card desenhado e revela o código por trás. */}
+      <div className="cards-band" aria-hidden="true" ref={bandRef}>
+        <div className="band-layer band-layer-code">
+          <div className="cards-track">
+            {loop.map((s, i) => (
+              <CodeCard key={i} title={s.code.title} lines={s.code.lines} />
+            ))}
+          </div>
         </div>
-      </div>
+        <div className="band-layer band-layer-service">
+          <div className="cards-track">
+            {loop.map((s, i) => (
+              <ServiceCard key={i} icon={s.service.icon} title={s.service.title} desc={s.service.desc} />
+            ))}
+          </div>
+        </div>
 
-      <div className="laser-hero-gradient-bottom" aria-hidden="true" />
+        <div className="laser-beam" ref={beamRef}>
+          <div className="beam-idle" />
+          <div className="beam-ignite">
+            <div className="beam-flicker">
+              <div className="beam beam-outer" />
+              <div className="beam beam-mid" />
+              <div className="beam beam-inner" />
+              <div className="beam beam-core" />
+            </div>
+            <Particles />
+          </div>
+        </div>
+
+        <div className="band-fade band-fade-l" />
+        <div className="band-fade band-fade-r" />
+        <div className="band-fade band-fade-t" />
+        <div className="band-fade band-fade-b" />
+      </div>
     </section>
   );
 }
