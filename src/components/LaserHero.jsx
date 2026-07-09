@@ -240,11 +240,14 @@ export default function LaserHero() {
     <section id="hero" className="laser-hero">
       <Stars />
       <div className="laser-hero-glow" aria-hidden="true" />
+      {/* Raio laser — 4 camadas (core branco → fúcsia larga), com ciclo de ignição */}
       <div className="laser-beam" aria-hidden="true">
-        <div className="beam beam-outer" />
-        <div className="beam beam-inner" />
-        <div className="beam beam-core" />
-        <div className="beam beam-travel" />
+        <div className="beam-ignite">
+          <div className="beam beam-outer" />
+          <div className="beam beam-mid" />
+          <div className="beam beam-inner" />
+          <div className="beam beam-core" />
+        </div>
       </div>
 
       <div className="laser-hero-content">

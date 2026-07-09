@@ -66,19 +66,28 @@
   pointer-events: none;
 }
 
-/* ---- Raio laser em camadas (fiel à referência) ---- */
+/* ---- Raio laser (réplica fiel da referência) ----
+   4 camadas: core branco 3/4px · violeta 16/24px blur(8px) ·
+   roxo 80/100px blur(35px) · fúcsia 120/180px blur(50px),
+   todas mix-blend-screen, NA FRENTE dos cards (z-60 na ref).
+   Só existe na faixa dos cards (abaixo do subtítulo) e tem
+   ciclo de ignição: ON ~14,5s → OFF ~2,5s (transição 300ms,
+   cresce do centro com scaleY). */
 .laser-beam {
   position: absolute;
-  top: 0;
+  top: 57%;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 220px;
-  z-index: 1;
+  width: 2px;
+  z-index: 4;
   pointer-events: none;
-  /* Beam mais forte na metade inferior (cards) e suave sob o título — como a referência */
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.55) 26%, #000 46%, #000 100%);
-  mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.55) 26%, #000 46%, #000 100%);
+}
+.beam-ignite {
+  position: absolute;
+  inset: 0;
+  transform-origin: center;
+  animation: beamIgnite 17s linear infinite;
 }
 .beam {
   position: absolute;
@@ -86,57 +95,46 @@
   left: 50%;
   transform: translateX(-50%);
   height: 100%;
+  mix-blend-mode: screen;
 }
-/* Núcleo branco fino e sólido */
+/* Núcleo branco sólido */
 .beam-core {
   width: 3px;
   background: #ffffff;
   box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.9);
-  animation: beamGlow 3.5s ease-in-out infinite;
+  mix-blend-mode: normal;
 }
 /* Halo violeta próximo */
 .beam-inner {
-  width: 24px;
+  width: 16px;
   background: #a78bfa;
   filter: blur(8px);
-  mix-blend-mode: screen;
 }
-/* Brilho roxo amplo */
-.beam-outer {
-  width: 90px;
-  background: rgba(168, 85, 247, 0.5);
+/* Brilho roxo médio */
+.beam-mid {
+  width: 80px;
+  background: rgba(168, 85, 247, 0.6);
   filter: blur(35px);
-  mix-blend-mode: screen;
-  animation: beamBreathe 5s ease-in-out infinite;
 }
-/* Pulso de luz descendo — dá o aspecto "ativo" */
-.beam-travel {
-  width: 5px;
-  height: 140px;
-  border-radius: 999px;
-  background: linear-gradient(to bottom, transparent, #ffffff 45%, #c4b5fd 60%, transparent);
-  box-shadow: 0 0 24px 6px rgba(196, 181, 253, 0.85);
-  mix-blend-mode: screen;
-  animation: beamTravel 3.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+/* Lavagem fúcsia larga */
+.beam-outer {
+  width: 120px;
+  background: rgba(192, 38, 211, 0.3);
+  filter: blur(50px);
 }
 
 @media (min-width: 768px) {
   .beam-core { width: 4px; }
+  .beam-inner { width: 24px; }
+  .beam-mid { width: 100px; }
+  .beam-outer { width: 180px; }
 }
 
-@keyframes beamGlow {
-  0%, 100% { box-shadow: 0 0 18px 4px rgba(255, 255, 255, 0.8); }
-  50% { box-shadow: 0 0 28px 7px rgba(255, 255, 255, 1); }
-}
-@keyframes beamBreathe {
-  0%, 100% { opacity: 0.7; }
-  50% { opacity: 1; }
-}
-@keyframes beamTravel {
-  0% { transform: translate(-50%, -160px); opacity: 0; }
-  12% { opacity: 1; }
-  88% { opacity: 1; }
-  100% { transform: translate(-50%, 100vh); opacity: 0; }
+/* Ciclo de 17s: ligado 14,5s → apaga (300ms) → off 2,2s → religa (300ms) */
+@keyframes beamIgnite {
+  0%, 85.3% { opacity: 1; transform: scaleY(1); }
+  87%, 98.2% { opacity: 0; transform: scaleY(0.5); }
+  100% { opacity: 1; transform: scaleY(1); }
 }
 
 /* ---- Conteúdo central ---- */
@@ -380,13 +378,13 @@
   .laser-hero-subtitle { font-size: 16px; }
   .scrolling-cards { top: 62%; }
   .hero-card { width: 260px; height: 320px; }
+  /* Como na referência: no mobile o laser fica a 25% da esquerda */
+  .laser-beam { left: 25%; top: 60%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .beam-core,
-  .beam-outer,
+  .beam-ignite,
   .badge-dot,
   .laser-hero-content { animation: none; }
-  .beam-travel { display: none; }
   .scrolling-cards-track { animation-duration: 120s; }
 }
