@@ -10,6 +10,16 @@ export const projects = [
     linkLabel: 'Ver site ao vivo',
   },
   {
+    id: 'avaliacao-fisica',
+    name: 'Avaliação Física',
+    tag: 'Desktop · Saúde & Gestão Clínica',
+    description:
+      'Aplicativo desktop offline para estúdios de Pilates e Correção Postural: cadastro de pacientes, anamnese com triagem de risco, avaliação postural e antropométrica, plano de atendimento versionado, sessões em SOAP com evolução em gráficos e laudos em PDF. Banco SQLite criptografado na máquina do profissional, com acesso por senha, auditoria, backup e conformidade com a LGPD. Instalável em macOS e Windows.',
+    stack: ['Electron', 'React', 'TypeScript', 'SQLite', 'Drizzle ORM', 'ECharts', 'Vitest', 'GitHub Actions'],
+    link: null,
+    linkLabel: 'Projeto para cliente',
+  },
+  {
     id: 'legenda-viva',
     name: 'LegendaViva',
     tag: 'Web App · Acessibilidade',
@@ -18,6 +28,16 @@ export const projects = [
     stack: ['React', 'TypeScript', 'FastAPI', 'PostgreSQL', 'WebSocket', 'Docker'],
     link: 'https://legenda-viva.vercel.app/',
     linkLabel: 'Ver projeto ao vivo',
+  },
+  {
+    id: 'easy-conciliador',
+    name: 'Easy',
+    tag: 'Desktop · Automação Contábil',
+    description:
+      'Conciliador de comprovantes para consultoria contábil: recebe um .zip com centenas de comprovantes em PDF e devolve a relação de títulos e o arquivo de lançamentos pronto para o sistema contábil. Como os comprovantes são captura de tela, a leitura é por OCR — conferida pelo dígito verificador da linha digitável e pelo cruzamento de valores, de modo que um erro de leitura vira exceção sinalizada, nunca lançamento errado.',
+    stack: ['Python', 'RapidOCR', 'ONNX Runtime', 'pdfplumber', 'OpenCV', 'Tkinter', 'PyInstaller', 'pytest'],
+    link: null,
+    linkLabel: 'Projeto para cliente',
   },
   {
     id: 'rota-clara',
