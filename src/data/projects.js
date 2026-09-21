@@ -10,6 +10,16 @@ export const projects = [
     linkLabel: 'Ver site ao vivo',
   },
   {
+    id: 'easy-conciliador',
+    name: 'Easy',
+    tag: 'Desktop · Automação Contábil',
+    description:
+      'Conciliador de comprovantes para consultoria contábil: recebe um .zip com centenas de comprovantes em PDF e devolve a relação de títulos e o arquivo de lançamentos pronto para o sistema contábil. Como os comprovantes são captura de tela, a leitura é por OCR — conferida pelo dígito verificador da linha digitável e pelo cruzamento de valores, de modo que um erro de leitura vira exceção sinalizada, nunca lançamento errado.',
+    stack: ['Python', 'RapidOCR', 'ONNX Runtime', 'pdfplumber', 'OpenCV', 'Tkinter', 'PyInstaller', 'pytest'],
+    link: null,
+    linkLabel: 'Projeto para cliente',
+  },
+  {
     id: 'avaliacao-fisica',
     name: 'Avaliação Física',
     tag: 'Desktop · Saúde & Gestão Clínica',
@@ -30,14 +40,14 @@ export const projects = [
     linkLabel: 'Ver projeto ao vivo',
   },
   {
-    id: 'easy-conciliador',
-    name: 'Easy',
-    tag: 'Desktop · Automação Contábil',
+    id: 'checkmate',
+    name: 'CheckMate',
+    tag: 'Desktop · Gestão',
     description:
-      'Conciliador de comprovantes para consultoria contábil: recebe um .zip com centenas de comprovantes em PDF e devolve a relação de títulos e o arquivo de lançamentos pronto para o sistema contábil. Como os comprovantes são captura de tela, a leitura é por OCR — conferida pelo dígito verificador da linha digitável e pelo cruzamento de valores, de modo que um erro de leitura vira exceção sinalizada, nunca lançamento errado.',
-    stack: ['Python', 'RapidOCR', 'ONNX Runtime', 'pdfplumber', 'OpenCV', 'Tkinter', 'PyInstaller', 'pytest'],
+      'Sistema desktop em Java para gestão administrativa e operacional de uma academia de Jiu-Jitsu, eliminando controles manuais em papel e centralizando rotinas para proprietários, professores e gestores.',
+    stack: ['Java'],
     link: null,
-    linkLabel: 'Projeto para cliente',
+    linkLabel: 'Projeto acadêmico',
   },
   {
     id: 'rota-clara',
@@ -48,16 +58,6 @@ export const projects = [
     stack: ['Mobile', 'Geolocalização'],
     link: null,
     linkLabel: 'Em desenvolvimento',
-  },
-  {
-    id: 'checkmate',
-    name: 'CheckMate',
-    tag: 'Desktop · Gestão',
-    description:
-      'Sistema desktop em Java para gestão administrativa e operacional de uma academia de Jiu-Jitsu, eliminando controles manuais em papel e centralizando rotinas para proprietários, professores e gestores.',
-    stack: ['Java'],
-    link: null,
-    linkLabel: 'Projeto acadêmico',
   },
   {
     id: 'danubia-carvalho',
