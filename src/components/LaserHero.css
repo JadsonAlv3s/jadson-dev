@@ -17,7 +17,7 @@
   padding-top: 11vh;
   text-align: center;
   overflow: hidden;
-  background: #07070c;
+  background: #0a0910;
 }
 
 /* ---- Estrelas ---- */
@@ -416,22 +416,22 @@
 .band-fade-l {
   top: 0; bottom: 0; left: 0;
   width: 256px;
-  background: linear-gradient(to right, #07070c, transparent);
+  background: linear-gradient(to right, #0a0910, transparent);
 }
 .band-fade-r {
   top: 0; bottom: 0; right: 0;
   width: 256px;
-  background: linear-gradient(to left, #07070c, transparent);
+  background: linear-gradient(to left, #0a0910, transparent);
 }
 .band-fade-t {
   left: 0; right: 0; top: 0;
   height: 96px;
-  background: linear-gradient(to bottom, #07070c, transparent);
+  background: linear-gradient(to bottom, #0a0910, transparent);
 }
 .band-fade-b {
   left: 0; right: 0; bottom: 0;
   height: 96px;
-  background: linear-gradient(to top, #07070c, transparent);
+  background: linear-gradient(to top, #0a0910, transparent);
 }
 
 /* ---- Responsivo ---- */

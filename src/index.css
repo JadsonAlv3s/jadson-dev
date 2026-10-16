@@ -1,19 +1,29 @@
 :root {
-  --bg: #0b0d12;
-  --bg-elevated: rgba(255, 255, 255, 0.04);
-  --bg-elevated-strong: rgba(255, 255, 255, 0.07);
-  --panel: rgba(13, 17, 23, 0.78);
-  --navy: #101826;
-  --navy-deep: #0a1018;
-  --accent: #5eead4;
-  --accent-soft: rgba(94, 234, 212, 0.14);
-  --accent-2: #7dd3fc;
-  --text: #e8edf4;
-  --text-muted: #94a3b8;
-  --border: rgba(255, 255, 255, 0.09);
-  --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  /* Paleta única: o violeta do topo (laser) é o acento do site inteiro.
+     Contraste sobre --bg #0a0910:
+     --accent #a78bfa ........ 7.4:1 (texto)
+     --accent-strong #c4b5fd . 10.6:1 (texto pequeno em chips)
+     --text-muted #a8a3ba .... 8.1:1
+     branco sobre --accent-btn #7c3aed: 5.7:1 (botões) */
+  --bg: #0a0910;
+  --bg-elevated: rgba(167, 139, 250, 0.06);
+  --bg-elevated-strong: rgba(167, 139, 250, 0.11);
+  --panel: rgba(18, 15, 28, 0.78);
+  --navy: #15112a;
+  --navy-deep: #0a0812;
+  --accent: #a78bfa;
+  --accent-strong: #c4b5fd;
+  --accent-btn: #7c3aed;
+  --accent-btn-hover: #6d28d9;
+  --accent-soft: rgba(167, 139, 250, 0.13);
+  --accent-2: #e879f9;
+  --text: #ece9f5;
+  --text-muted: #a8a3ba;
+  --border: rgba(167, 139, 250, 0.14);
+  --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.55);
 
   --sans: 'Segoe UI', system-ui, Roboto, sans-serif;
+  --mono: 'Roboto Mono', ui-monospace, Consolas, monospace;
 
   color-scheme: dark;
   font: 16px/1.6 var(--sans);
@@ -41,7 +51,7 @@ p {
 }
 
 a {
-  color: var(--accent-2);
+  color: var(--accent-strong);
   text-decoration: none;
 }
 
@@ -96,9 +106,12 @@ ul {
   transform: translateY(-2px);
 }
 .btn-primary {
-  background: var(--accent);
-  color: #06201c;
-  box-shadow: 0 10px 30px -8px rgba(94, 234, 212, 0.35);
+  background: var(--accent-btn);
+  color: #fff;
+  box-shadow: 0 10px 30px -8px rgba(124, 58, 237, 0.55);
+}
+.btn-primary:hover {
+  background: var(--accent-btn-hover);
 }
 .btn-secondary {
   background: var(--bg-elevated);
@@ -117,7 +130,7 @@ ul {
   gap: 12px;
   flex-wrap: wrap;
   padding: 9px 24px;
-  background: #07070c;
+  background: #0a0910;
   border-bottom: 1px solid var(--border);
   font-size: 13px;
   text-align: center;
@@ -128,7 +141,7 @@ ul {
   color: var(--text-muted);
 }
 .topbar-cta {
-  color: #c4b5fd;
+  color: var(--accent-strong);
   font-weight: 600;
   white-space: nowrap;
 }
@@ -141,7 +154,7 @@ ul {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(9, 8, 14, 0.72);
+  background: rgba(10, 9, 16, 0.75);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
 }
@@ -161,7 +174,7 @@ ul {
   color: var(--text);
 }
 .navbar-logo span {
-  color: #a78bfa;
+  color: var(--accent);
 }
 .navbar-links {
   justify-self: center;
@@ -187,18 +200,19 @@ ul {
 }
 .navbar-cta {
   justify-self: end;
-  background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+  background: var(--accent-btn);
   color: #fff !important;
   padding: 9px 20px;
   border-radius: 999px;
   font-weight: 600;
   font-size: 14px;
-  box-shadow: 0 8px 24px -8px rgba(139, 92, 246, 0.6);
+  box-shadow: 0 8px 24px -8px rgba(124, 58, 237, 0.6);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 .navbar-cta:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 28px -8px rgba(139, 92, 246, 0.75);
+  box-shadow: 0 10px 28px -8px rgba(124, 58, 237, 0.75);
+  background: var(--accent-btn-hover);
 }
 
 /* Hero */
@@ -285,7 +299,7 @@ ul {
   font-size: 14px;
   padding: 8px 16px;
   border-radius: 999px;
-  border: 1px solid rgba(94, 234, 212, 0.25);
+  border: 1px solid rgba(167, 139, 250, 0.28);
 }
 
 /* Projects */
@@ -309,12 +323,13 @@ ul {
 }
 .project-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(94, 234, 212, 0.3);
+  border-color: rgba(167, 139, 250, 0.45);
 }
 .project-tag {
   color: var(--accent);
-  font-weight: 600;
-  font-size: 13px;
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -333,13 +348,15 @@ ul {
 }
 .project-stack li {
   background: var(--bg-elevated);
-  color: var(--accent-2);
+  border: 1px solid var(--border);
+  color: var(--accent-strong);
   font-size: 12px;
   font-weight: 600;
   padding: 4px 10px;
   border-radius: 999px;
 }
 .project-link {
+  color: var(--accent-strong);
   font-weight: 700;
   margin-top: 4px;
 }
@@ -399,7 +416,7 @@ ul {
 .footer {
   position: relative;
   z-index: 1;
-  background: rgba(10, 13, 18, 0.85);
+  background: rgba(10, 9, 16, 0.85);
   border-top: 1px solid var(--border);
   color: var(--text-muted);
   text-align: center;

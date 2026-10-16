@@ -163,7 +163,7 @@ export default function NetworkGraph() {
 
       ctx.clearRect(0, 0, width, height)
 
-      ctx.strokeStyle = 'rgba(110, 231, 219, 0.14)'
+      ctx.strokeStyle = 'rgba(167, 139, 250, 0.16)'
       ctx.lineWidth = 1
       for (const [a, b] of edges) {
         ctx.beginPath()
@@ -174,7 +174,7 @@ export default function NetworkGraph() {
 
       for (const n of nodes) {
         const color =
-          n.group === 'hub' ? '#5eead4' : n.group === 'cat' ? '#7dd3fc' : '#94a3b8'
+          n.group === 'hub' ? '#c4b5fd' : n.group === 'cat' ? '#a78bfa' : '#a8a3ba'
         ctx.beginPath()
         ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2)
         ctx.fillStyle = color
@@ -183,7 +183,7 @@ export default function NetworkGraph() {
         ctx.globalAlpha = 1
 
         ctx.font = n.group === 'leaf' ? '11px Segoe UI' : '12px Segoe UI'
-        ctx.fillStyle = n.group === 'hub' ? 'rgba(226,232,240,0.95)' : 'rgba(148,163,184,0.75)'
+        ctx.fillStyle = n.group === 'hub' ? 'rgba(236,233,245,0.95)' : 'rgba(168,163,186,0.8)'
         ctx.textBaseline = 'middle'
         ctx.fillText(n.label, n.x + n.r + 6, n.y)
       }
