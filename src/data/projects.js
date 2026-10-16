@@ -10,6 +10,26 @@ export const projects = [
     linkLabel: 'Ver site ao vivo',
   },
   {
+    id: 'atendente-whatsapp-ia',
+    name: 'Atendente de WhatsApp com IA',
+    tag: 'Automação · IA · Em produção',
+    description:
+      'Bot de atendimento no WhatsApp integrado ao EitaPDV: conversa com o cliente em linguagem natural, consulta o cardápio da loja em tempo real e cria o pedido direto na tela da cozinha (KDS). Usa dois modelos de IA, com o reserva assumindo se o principal falhar, e uma instância isolada por loja.',
+    stack: ['n8n', 'Evolution API', 'Claude', 'DeepSeek', 'PostgreSQL', 'Redis', 'Docker'],
+    link: null,
+    linkLabel: 'Integrado ao EitaPDV',
+  },
+  {
+    id: 'fino-sabor',
+    name: 'Fino Sabor',
+    tag: 'Cardápio Online · Alimentação',
+    description:
+      'Cardápio online de açaiteria e sorveteria em São José de Mipibu (RN): o cliente monta o açaí em 3 passos, escolhe os sorvetes numa vitrine de 22 sabores e o pedido chega pronto no WhatsApp, com entrega, pagamento e troco. Instalável como app (PWA), com 41 testes na lógica de preço e identidade visual nova criada a partir da logo da loja.',
+    stack: ['HTML', 'CSS', 'JavaScript', 'PWA', 'Vitest'],
+    link: 'https://sorveteriafinosabor.online/',
+    linkLabel: 'Ver site ao vivo',
+  },
+  {
     id: 'easy-conciliador',
     name: 'Easy',
     tag: 'Desktop · Automação Contábil',
@@ -18,6 +38,16 @@ export const projects = [
     stack: ['Python', 'RapidOCR', 'ONNX Runtime', 'pdfplumber', 'OpenCV', 'Tkinter', 'PyInstaller', 'pytest'],
     link: null,
     linkLabel: 'Projeto para cliente',
+  },
+  {
+    id: 'mercadinho-pdv',
+    name: 'Mercadinho PDV',
+    tag: 'Web App · PDV & Estoque',
+    description:
+      'Frente de caixa e estoque para mercadinho de bairro: modo caixa em tela cheia com leitor de código de barras e atalhos, comprovante em bobina de 80 mm, estoque com histórico de cada movimento e fechamento cego do turno por forma de pagamento. Painel do gerente com faturamento e ticket médio, e CI que só libera versão com todos os testes verdes.',
+    stack: ['Python', 'Django', 'PostgreSQL', 'Docker', 'GitHub Actions'],
+    link: null,
+    linkLabel: 'Pronto para implantação',
   },
   {
     id: 'avaliacao-fisica',
@@ -34,7 +64,7 @@ export const projects = [
     name: 'LegendaViva',
     tag: 'Web App · Acessibilidade',
     description:
-      'Transcrição de fala em legendas em tempo real (latência <1.5s), com tradução simultânea PT/EN/ES, para pessoas surdas e com deficiência auditiva acompanharem eventos sem instalação ou login.',
+      'Legendas de fala em tempo real (latência < 1,5 s), com tradução simultânea PT/EN/ES, para pessoas surdas e com deficiência auditiva acompanharem aulas, palestras e reuniões. Link compartilhável para até 50 espectadores, sem login nem instalação, com fonte ajustável, alto contraste e exportação do texto da sessão.',
     stack: ['React', 'TypeScript', 'FastAPI', 'PostgreSQL', 'WebSocket', 'Docker'],
     link: 'https://legenda-viva.vercel.app/',
     linkLabel: 'Ver projeto ao vivo',
@@ -44,20 +74,20 @@ export const projects = [
     name: 'CheckMate',
     tag: 'Desktop · Gestão',
     description:
-      'Sistema desktop em Java para gestão administrativa e operacional de uma academia de Jiu-Jitsu, eliminando controles manuais em papel e centralizando rotinas para proprietários, professores e gestores.',
-    stack: ['Java'],
+      'Gestão de academia de Jiu-Jitsu que substitui o controle em papel: atletas e ficha médica, presença por QR Code, mensalidades com aviso de inadimplência, fluxo de caixa e promoção de faixa validando tempo e frequência. Tem ranking gamificado de atletas e responsáveis e sai num instalador único para Windows, sem precisar instalar Java nem banco.',
+    stack: ['Java 21', 'JavaFX', 'H2', 'jpackage', 'Inno Setup'],
     link: null,
-    linkLabel: 'Projeto acadêmico',
+    linkLabel: 'Pronto para entrega',
   },
   {
-    id: 'rota-clara',
-    name: 'Rota Clara',
-    tag: 'App Mobile · Mobilidade',
+    id: 'mcps',
+    name: 'Ferramentas de IA (MCP)',
+    tag: 'IA · Automação',
     description:
-      'Rastreamento de ônibus em tempo real na região de São José de Mipibu e Nísia Floresta (RN), com mapeamento de rotas turísticas para as praias de Camurupim, Búzios e Tabatinga.',
-    stack: ['Mobile', 'Geolocalização'],
+      'Servidores MCP que dão à IA acesso a dados reais: varredura de licitações de tecnologia no PNCP e em diários oficiais de 13 municípios do RN, monitor de saúde do servidor do EitaPDV, radar de notícias de IA e acesso às minhas anotações de projetos.',
+    stack: ['TypeScript', 'Node.js', 'MCP SDK', 'Playwright'],
     link: null,
-    linkLabel: 'Em desenvolvimento',
+    linkLabel: 'Em uso diário',
   },
   {
     id: 'danubia-carvalho',
@@ -80,13 +110,23 @@ export const projects = [
     linkLabel: 'Ver site ao vivo',
   },
   {
-    id: 'fino-sabor',
-    name: 'Fino Sabor',
-    tag: 'Landing Page · E-commerce · Alimentação',
+    id: 'helena-kids',
+    name: 'Helena Kids',
+    tag: 'Catálogo · E-commerce · Moda Infantil',
     description:
-      'Vitrine digital para açaiteria/sorveteria em São José de Mipibu (RN), com cardápio interativo de personalização passo a passo, carrinho e pedidos via WhatsApp.',
+      'Catálogo de roupa infantil com filtro por tamanho e sacola que fecha o pedido direto no WhatsApp da loja.',
     stack: ['HTML', 'CSS', 'JavaScript'],
-    link: 'https://sorveteriafinosabor.online/',
+    link: 'https://helenakids.vercel.app/',
     linkLabel: 'Ver site ao vivo',
+  },
+  {
+    id: 'rota-clara',
+    name: 'Rota Clara',
+    tag: 'App Mobile · Mobilidade',
+    description:
+      'Rastreamento de ônibus em tempo real na região de São José de Mipibu e Nísia Floresta (RN), com mapeamento de rotas turísticas para as praias de Camurupim, Búzios e Tabatinga.',
+    stack: ['Mobile', 'Geolocalização'],
+    link: null,
+    linkLabel: 'Em desenvolvimento',
   },
 ]

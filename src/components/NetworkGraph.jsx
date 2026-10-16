@@ -19,6 +19,8 @@ const NODES = [
   { id: 'aws', label: 'AWS', r: 3.5, group: 'leaf' },
   { id: 'git', label: 'Git', r: 3.5, group: 'leaf' },
 
+  { id: 'eitapdv', label: 'EitaPDV', r: 4.5, group: 'leaf' },
+  { id: 'finosabor', label: 'Fino Sabor', r: 4, group: 'leaf' },
   { id: 'legendaviva', label: 'LegendaViva', r: 4, group: 'leaf' },
   { id: 'rotaclara', label: 'Rota Clara', r: 4, group: 'leaf' },
   { id: 'checkmate', label: 'CheckMate', r: 4, group: 'leaf' },
@@ -32,7 +34,9 @@ const EDGES = [
   ['skills', 'python'], ['skills', 'java'], ['skills', 'react'],
   ['skills', 'fastapi'], ['skills', 'postgres'], ['skills', 'docker'],
   ['skills', 'aws'], ['skills', 'git'],
+  ['projetos', 'eitapdv'], ['projetos', 'finosabor'],
   ['projetos', 'legendaviva'], ['projetos', 'rotaclara'], ['projetos', 'checkmate'],
+  ['eitapdv', 'react'], ['eitapdv', 'postgres'],
   ['legendaviva', 'acessibilidade'],
   ['formacao', 'seguranca'],
 ]
